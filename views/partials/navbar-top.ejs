@@ -1,0 +1,21 @@
+<nav class="navbar navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <div class="d-flex flex-row gap-3 align-items-center justify-content-center">
+            <a class="navbar-brand">Me Chat</a>
+            <p class="navbar-brand" style="font-weight: 500;">Selamat Pagi <%= user_name.split(' ')[0] %>!</p>
+        </div>
+        <button class="btn btn-outline-danger" type="button" onclick="handleLogout()">Logout</button>
+    </div>
+</nav>
+
+<script type="text/javascript">
+    async function handleLogout() {
+        const response = await fetch('http://localhost:4050/auth/logout', {
+            method: "POST"
+        })
+        if (response.status === 204) {
+            alert('Logout Berhasil');
+            window.location.href = '/login';
+        }
+    }
+</script>

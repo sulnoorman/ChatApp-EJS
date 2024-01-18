@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('../../partials/head', {title: 'I-Chat' }) %>
+        <%- include('../../partials/scripts-index'); %>
+</head>
+
+<body>
+    <!-- navbar fixed top -->
+    <%- include('../../partials/navbar-top', {user_name: currentUser.nama_lengkap}) %>
+
+        <!-- char-area -->
+        <section class="message-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="chat-area">
+                            <!-- chatlist -->
+                            <div class="chatlist">
+                                <div class="modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="chat-header">
+                                            <div class="msg-search">
+                                                <input type="text" class="form-control" id="inlineFormInputGroup"
+                                                    placeholder="Search" aria-label="search">
+                                                <a class="add" href="#"><img class="img-fluid"
+                                                        src="https://mehedihtml.com/chatbox/assets/img/add.svg"
+                                                        alt="add"></a>
+                                            </div>
+
+                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="Open-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#Open" type="button" role="tab"
+                                                        aria-controls="Open" aria-selected="true">Open</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="Users-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#Users" type="button" role="tab"
+                                                        aria-controls="Users" aria-selected="false">Pengguna</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <!-- chat-lists -->
+                                            <div class="chat-lists">
+                                                <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="Open" role="tabpanel"
+                                                        aria-labelledby="Open-tab">
+                                                        <!-- chat-list -->
+                                                        <div class="chat-list">
+                                                            <% if (listChat.length> 0) { %>
+                                                                <% listChat.forEach((item, index)=> { %>
+                                                                    <% item.members.forEach(member=> { %>
+                                                                        <a href="<%= '/'+item._id %>" key="<%= member.id %>"
+                                                                            class="d-flex align-items-center">
+                                                                            <div class="flex-shrink-0">
+                                                                                <img class="img-fluid" style="max-width: 50px; border-radius: 50px;"
+                                                                                    src="<%= member.avatar !== '' ? member.avatar : 'image/user_avatar.png' %>"
+                                                                                    alt="user img">
+                                                                                <span
+                                                                                    class="<%= item?.active ? 'active' : '' %>"></span>
+                                                                            </div>
+                                                                            <div class="flex-grow-1 ms-3" style="width: 176px;">
+                                                                                <h3>
+                                                                                    <%= member.nama_lengkap %>
+                                                                                </h3>
+                                                                                <p class="text-truncate">
+                                                                                    <%= item.last_message[0].content %>
+                                                                                </p>
+                                                                            </div>
+                                                                        </a>
+                                                                        <% }) %>
+                                                                            <% }); %>
+                                                                                <% } %>
+                                                                                    <% if (listChat.length === 0) { %>
+                                                                                        <div
+                                                                                            class="container text-center">
+                                                                                            <p class="fs-6">Kamu Belum
+                                                                                                Mempunyai
+                                                                                                Riwayat Percakapan</p>
+                                                                                        </div>
+                                                                                        <% } %>
+                                                        </div>
+                                                        <!-- chat-list -->
+                                                    </div>
+                                                    <div class="tab-pane fade" id="Users" role="tabpanel"
+                                                        aria-labelledby="Users-tab">
+
+                                                        <!-- chat-list -->
+                                                        <div class="chat-list">
+                                                            <% if (users.length> 0) { %>
+                                                                <% users.forEach(user=> { %>
+                                                                    <a key="<%= user._id %>" href="#"
+                                                                        class="d-flex align-items-center">
+                                                                        <div class="flex-shrink-0">
+                                                                            <img class="img-fluid" style="max-width: 50px; border-radius: 50px;"
+                                                                                src="<%= user.avatar !== '' ? user.avatar : 'image/user_avatar.png' %>"
+                                                                                alt="user img">
+                                                                        </div>
+                                                                        <div class="flex-grow-1 ms-3">
+                                                                            <h3>
+                                                                                <%= user.username %>
+                                                                            </h3>
+                                                                            <p>
+                                                                                <%= user.email %>
+                                                                            </p>
+                                                                        </div>
+                                                                    </a>
+                                                                    <% }) %>
+                                                                        <% } %>
+                                                        </div>
+                                                        <!-- chat-list -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- chat-lists -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- chatlist -->
+
+                            <!-- chatbox -->
+                            <div class="chatbox">
+                                <!-- include partials chatbox -->
+                                <%- include('../../partials/chatbox', { data: dataChat, id_user: currentUser._id }) %>
+                            </div>
+                        </div>
+                        <!-- chatbox -->
+ 
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        <!-- char-area -->
+</body>
+
+</html>

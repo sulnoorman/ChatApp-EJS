@@ -1,0 +1,35 @@
+<!-- script for window-chat page -->
+
+<script type="text/javascript">
+    function docReady(fn) {
+        // see if DOM is already available
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+    docReady(function () {
+        const chatbox = document.querySelector(".chatbox");
+        const chat_icon = document.querySelector(".chat-icon");
+        const chat_item = document.querySelectorAll(".chat-list a");
+        
+        if (chat_icon !== null) {
+            chat_icon.addEventListener('click', function (e) {
+                e.stopPropagation();
+                chatbox.classList.remove("showbox");
+            })
+        }
+
+        if (chat_item !== null) {
+            for (i = 0; i < chat_item.length; i++) {
+                chat_item[i].addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    chatbox.classList.add("showbox");
+                })
+            }
+        }
+    });
+</script>

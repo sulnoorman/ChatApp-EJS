@@ -1,0 +1,206 @@
+<div class="modal-dialog-scrollable">
+    <% if (data !==null) { %>
+        <div class="modal-content">
+            <div class="msg-head">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <img class="img-fluid"
+                                    src="<%= data?.members[0].avatar !== '' ? data?.members[0].avatar : 'image/user_avatar.png' %>"
+                                    alt="user img" style="max-width: 50px; border-radius: 50px;">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h3>
+                                    <%= data?.members[0].nama_lengkap %>
+                                </h3>
+                                <p>
+                                    <%= data?.members[0].email %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <ul class="moreoption">
+                            <li class="navbar nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Another
+                                            action</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Something else
+                                            here</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="msg-body">
+                    <ul id="msg-list">
+                        <% data?.conversations.forEach(item=> { %>
+                            <!-- date format function -->
+                            <% 
+                                const options={ 
+                                    weekday: "long", 
+                                    year: "numeric", 
+                                    month: "long", 
+                                    day: "numeric",
+                                    hour: "2-digit", 
+                                    minute: "2-digit" 
+                                }
+                                let date = new Date(item.sent_at); 
+                                let formattedDate=date.toLocaleString('id-ID', options) 
+                                let formattedTime=date.toLocaleTimeString('id-ID', { hour: "2-digit", minute: "2-digit" }); 
+                                let time= date < new Date() ? formattedDate : formattedTime; 
+                            %>
+                                <!-- date format function -->
+                                <li key="<%= item.id %>"
+                                    class="<%= item.sender.toString() !== id_user ? 'sender' : 'reply' %>">
+                                    <p>
+                                        <%= item.content %>
+                                    </p>
+                                    <span class="time">
+                                        <%= time %>
+                                    <i class="bi bi-check2"></i>
+                                    </span>
+                                </li>
+                                <% }) %>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="send-box">
+                <form action="">
+                    <input type="text" id="message-input" class="form-control" aria-label="message…"
+                        placeholder="Write message…">
+                        <% 
+                            const payload = {
+                                id_conversations: data._id,
+                                sender: id_user,
+                                replied_to: null,
+                                sent_at: new Date(),
+                                updated_at: new Date(),
+                                read_status: false
+                            }
+                            const dataString = JSON.stringify(payload);
+                        %>
+                        <button type="button" onclick="sendMessage('<%= dataString %>')">
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            Send
+                        </button>
+                </form>
+
+                <div class="send-btns">
+                    <div class="attach">
+                        <div class="button-wrapper">
+                            <span class="label">
+                                <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg"
+                                    alt="image title"> attached file
+                            </span><input type="file" name="upload" id="upload" class="upload-box"
+                                placeholder="Upload File" aria-label="Upload File">
+                        </div>
+
+                        <select class="form-control" id="exampleFormControlSelect1">
+                            <option>Select template</option>
+                            <option>Template 1</option>
+                            <option>Template 2</option>
+                        </select>
+
+                        <div class="add-apoint">
+                            <a href="#" data-toggle="modal" data-target="#exampleModal4"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16"
+                                    fill="none">
+                                    <path
+                                        d="M8 16C3.58862 16 0 12.4114 0 8C0 3.58862 3.58862 0 8 0C12.4114 0 16 3.58862 16 8C16 12.4114 12.4114 16 8 16ZM8 1C4.14001 1 1 4.14001 1 8C1 11.86 4.14001 15 8 15C11.86 15 15 11.86 15 8C15 4.14001 11.86 1 8 1Z"
+                                        fill="#7D7D7D" />
+                                    <path
+                                        d="M11.5 8.5H4.5C4.224 8.5 4 8.276 4 8C4 7.724 4.224 7.5 4.5 7.5H11.5C11.776 7.5 12 7.724 12 8C12 8.276 11.776 8.5 11.5 8.5Z"
+                                        fill="#7D7D7D" />
+                                    <path
+                                        d="M8 12C7.724 12 7.5 11.776 7.5 11.5V4.5C7.5 4.224 7.724 4 8 4C8.276 4 8.5 4.224 8.5 4.5V11.5C8.5 11.776 8.276 12 8 12Z"
+                                        fill="#7D7D7D" />
+                                </svg> Appoinment</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <% } %>
+            <% if (data===null) { %>
+                <div class="modal-content">
+                    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                        Kamu Belum Menambah percakapan
+                    </div>
+                </div>
+                <% } %>
+</div>
+<script type="text/javascript">
+    const id = '<%- id_user %>'
+    const socket = io();
+    const list = document.getElementById('msg-list');
+
+    function formattedDate(date) {
+        const newDate = new Date(date);
+        const options={ 
+                weekday: "long", 
+                year: "numeric", 
+                month: "long", 
+                day: "numeric",
+                hour: "2-digit", 
+                minute: "2-digit" 
+        } 
+        let formattedDate = newDate.toLocaleString('id-ID', options) 
+        let formattedTime = newDate.toLocaleTimeString('id-ID', { hour: "2-digit", minute: "2-digit" }); 
+        let time = newDate < new Date() ? formattedDate : formattedTime;
+
+        return time;
+    }
+
+    socket.on('newData', (data) => {
+        const iconClasses = "bi bi-check".split(' ');
+        const i = document.createElement('i');
+        const p = document.createElement('p');
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        const classList = id.toString() === data.sender.toString() ? 'reply' : 'sender';
+
+        li.classList.add(classList); 
+        p.innerText = data.content; 
+        span.classList.add('time');
+        i.classList.add(...iconClasses);
+        span.innerText = formattedDate(data.sent_at);
+
+        span.appendChild(i);
+        li.appendChild(p);
+        li.appendChild(span);
+        list.appendChild(li);
+    })
+    async function sendMessage(payload) {
+        const data = JSON.parse(payload);
+        const message = document.getElementById('message-input');
+        data['content'] = message.value
+
+        socket.emit('setData', data);
+        message.value = ''
+
+        const response = await fetch('/post/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        const res = await response.json();
+    }
+</script>
