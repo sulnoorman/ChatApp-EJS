@@ -93,7 +93,7 @@
                                                         <div class="chat-list">
                                                             <% if (users.length> 0) { %>
                                                                 <% users.forEach(user=> { %>
-                                                                    <a key="<%= user._id %>" href="#"
+                                                                    <a key="<%= user._id %>" href="<%= '/'+user._id %>"
                                                                         class="d-flex align-items-center">
                                                                         <div class="flex-shrink-0">
                                                                             <img class="img-fluid" style="max-width: 50px; border-radius: 50px;"
